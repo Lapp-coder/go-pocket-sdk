@@ -27,7 +27,7 @@ const (
 	xErrorHeader     = "X-Error"
 	xErrorCodeHeader = "X-Error-Code"
 
-	defaultTimeout = time.Second * 10
+	defaultTimeout = time.Second * 5
 )
 
 // Client is a getpocket API client
@@ -74,45 +74,21 @@ func (c *Client) Modify(ctx context.Context, input ModifyInput) error {
 
 // Retrieving retrieves user data (items) Pocket, such as the item id, which is needed to modify items in the Modify function
 func (c *Client) Retrieving(ctx context.Context, input RetrievingInput) ([]Item, error) {
-	var items []Item
-
 	req, err := input.generateRequest(c.consumerKey)
 	if err != nil {
-		return items, err
+		return nil, err
 	}
 
 	values, err := c.doHTTP(ctx, endpointRetrieving, req)
 	if err != nil {
-		return items, err
+		return nil, err
 	}
 
 	if values.GetObject("list") == nil {
-		return items, nil
+		return nil, nil
 	}
 
-	var itemId string
-	var index int
-	newJsonStr := values.GetObject("list").String()
-	for index != -1 {
-		index = strings.Index(newJsonStr, "{\"item_id\":\"")
-		if index != -1 {
-			for i := index + 12; string(newJsonStr[i]) != "\""; i++ {
-				itemId += string(newJsonStr[i])
-			}
-
-			items = append(items, createItem(itemId, values))
-
-			itemId = ""
-			oldJsonStr := newJsonStr
-			newJsonStr = ``
-
-			for i := index + 12; i != len(oldJsonStr); i++ {
-				newJsonStr += string(oldJsonStr[i])
-			}
-		}
-	}
-
-	return items, nil
+	return c.parseItems(values), nil
 }
 
 // Authorize returns the Authorization structure with the access token, user name and state obtained from the authorization request
@@ -183,6 +159,36 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state 
 	}
 
 	return string(token), nil
+}
+
+func (c *Client) parseItems(values *fastjson.Value) []Item {
+	var (
+		items  []Item
+		itemId string
+		index  int
+	)
+
+	newJsonStr := values.GetObject("list").String()
+	for index != -1 {
+		index = strings.Index(newJsonStr, "{\"item_id\":\"")
+		if index != -1 {
+			for i := index + 12; string(newJsonStr[i]) != "\""; i++ {
+				itemId += string(newJsonStr[i])
+			}
+
+			items = append(items, createItem(itemId, values))
+
+			itemId = ""
+			oldJsonStr := newJsonStr
+			newJsonStr = ``
+
+			for i := index + 12; i != len(oldJsonStr); i++ {
+				newJsonStr += string(oldJsonStr[i])
+			}
+		}
+	}
+
+	return items
 }
 
 func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) (*fastjson.Value, error) {
