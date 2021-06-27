@@ -162,6 +162,8 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state 
 }
 
 func (c *Client) parseItems(values *fastjson.Value) []Item {
+	const indexForItemId int = 13
+
 	var (
 		items  []Item
 		itemId string
@@ -170,9 +172,9 @@ func (c *Client) parseItems(values *fastjson.Value) []Item {
 
 	newJsonStr := values.GetObject("list").String()
 	for index != -1 {
-		index = strings.Index(newJsonStr, "{\"item_id\":\"")
+		index = strings.Index(newJsonStr, ":{\"item_id\":\"")
 		if index != -1 {
-			for i := index + 12; string(newJsonStr[i]) != "\""; i++ {
+			for i := index + indexForItemId; string(newJsonStr[i]) != "\""; i++ {
 				itemId += string(newJsonStr[i])
 			}
 
@@ -182,7 +184,7 @@ func (c *Client) parseItems(values *fastjson.Value) []Item {
 			oldJsonStr := newJsonStr
 			newJsonStr = ``
 
-			for i := index + 12; i != len(oldJsonStr); i++ {
+			for i := index + indexForItemId; i != len(oldJsonStr); i++ {
 				newJsonStr += string(oldJsonStr[i])
 			}
 		}
