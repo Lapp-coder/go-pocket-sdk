@@ -1,6 +1,6 @@
 # GetPocket API Golang SDK
 
-[![Release](https://img.shields.io/badge/release-v1.0.1-blue)](https://github.com/Lapp-coder/go-pocket-sdk/releases)
+[![Release](https://img.shields.io/badge/release-v1.0.2-blue)](https://github.com/Lapp-coder/go-pocket-sdk/releases)
 
 ### The basis of the package was made on code from [this](https://github.com/zhashkevych/go-pocket-sdk) repository.
 
@@ -42,8 +42,7 @@ func main() {
 	authURL, _ := client.GetAuthorizationURL(requestToken, "https://google.com")
 	fmt.Println(authURL)
 
-	// I wait for the user to click on the authorization link and grant rights to the application,
-	// Then I continue executing the program.
+	// Waiting for the user to follow the authorization link and grant rights to the applicationю
 	fmt.Scanln()
 
 	auth, err := client.Authorize(ctx, requestToken)
