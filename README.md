@@ -1,6 +1,6 @@
 # GetPocket API Golang SDK
 
-[![Release](https://img.shields.io/badge/release-v1.0.2-blue)](https://github.com/Lapp-coder/go-pocket-sdk/releases)
+[![Release](https://img.shields.io/badge/release-v1.0.3-blue)](https://github.com/Lapp-coder/go-pocket-sdk/releases)
 
 ### The basis of the package was made on code from [this](https://github.com/zhashkevych/go-pocket-sdk) repository.
 
@@ -62,12 +62,12 @@ func main() {
 		Favorite:    "0",
 	})
 
-	for _, v := range items {
+	for _, item := range items {
 		// Modifying all found user elements
 		actions := []pocket.Action{
-			{Name: pocket.Favorite, ItemId: v.ItemId, Time: time.Now().Unix()},
-			{Name: pocket.Archive, ItemId: v.ItemId, Time: time.Now().Unix()},
-			{Name: pocket.TagsAdd, ItemId: v.ItemId, Tags: "github.com, github, system-version-control"},
+			{Name: pocket.Favorite, ItemId: item.Id, Time: time.Now().Unix()},
+			{Name: pocket.Archive, ItemId: item.Id, Time: time.Now().Unix()},
+			{Name: pocket.TagsAdd, ItemId: item.Id, Tags: "github.com, github, system-version-control"},
 		}
 
 		_ = client.Modify(ctx, pocket.ModifyInput{

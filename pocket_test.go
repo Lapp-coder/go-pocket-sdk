@@ -80,7 +80,7 @@ func TestClient_Add(t *testing.T) {
 			wantErr:              false,
 		},
 		{
-			name: "OK_WithoutTagsAndTweeId",
+			name: "OK_WithoutTagsAndTweetId",
 			input: args{
 				ctx: context.Background(),
 				addInput: AddInput{
@@ -291,7 +291,7 @@ func TestClient_Retrieving(t *testing.T) {
 			expectedResponseBody: `{"status":1,"list":{"229279689":{"item_id":"229279689","resolved_id":"229279689","given_url":"http:\/\/www.grantland.com\/blog\/the-triangle\/post\/_\/id\/38347\/ryder-cup-preview","given_title":"The Massive Ryder Cup Preview - The Triangle Blog - Grantland","favorite":"0","status":"0","resolved_title":"The Massive Ryder Cup Preview","resolved_url":"http:\/\/www.grantland.com\/blog\/the-triangle\/post\/_\/id\/38347\/ryder-cup-preview","excerpt":"The list of things I love about the Ryder Cup is so long that it could fill a (tedious) novel, and golf fans can probably guess most of them.","is_article":"1","has_video":"1","has_image":"1","word_count":"3197"}}}`,
 			expectedItems: []Item{
 				{
-					ItemId:        "229279689",
+					Id:            "229279689",
 					ResolvedId:    "229279689",
 					GivenUrl:      `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
 					GivenTitle:    `The Massive Ryder Cup Preview - The Triangle Blog - Grantland`,
