@@ -8,10 +8,13 @@
 
 ***
 
-## Introduction:
+## Installation
+```go get -u github.com/Lapp-coder/go-pocket-sdk```
+
+## Introduction
 #### To create a new client, you need to get the consumer key that you get when you create your application on the getpocket website, specifically [here](https://getpocket.com/developer/apps/new)
 #### When you create this application, you can specify the permissions to use of certain APIs.
-#### It is important to note that if you do not specify any of these permissions, you will get an error when trying to call it (the API method) from the code, even if everything else goes well.
+#### It is important to note that if you do not specify any of these permissions, you will get an error when trying to call API method from the code, even if everything else goes well.
 
 
 ## Example usage:
