@@ -31,6 +31,7 @@ const (
 type Client struct {
 	client      *http.Client
 	consumerKey string
+	redirectURL string
 }
 
 // NewClient creates a new client with your application key (to generate a key, create your application here: https://getpocket.com/developer/apps)
@@ -94,7 +95,7 @@ func (c *Client) getItems(result gjson.Result) []Item {
 	return items
 }
 
-// Authorize returns the Authorization structure with the access token, user name and state obtained from the authorization request
+// Authorize returns the Authorization structure with the access token, username and state obtained from the authorization request
 func (c *Client) Authorize(ctx context.Context, requestToken string) (Authorization, error) {
 	if requestToken == "" {
 		return Authorization{}, fmt.Errorf("empty request token")
@@ -126,16 +127,16 @@ func (c *Client) Authorize(ctx context.Context, requestToken string) (Authorizat
 }
 
 // GetAuthorizationURL returns the url string that is used to grant the user access rights to his Pocket account in your application
-func (c *Client) GetAuthorizationURL(requestToken, redirectURL string) (string, error) {
+func (c Client) GetAuthorizationURL(requestToken string) (string, error) {
 	if requestToken == "" {
 		return "", fmt.Errorf("empty request token")
 	}
 
-	if redirectURL == "" {
+	if c.redirectURL == "" {
 		return "", fmt.Errorf("empty redirection URL")
 	}
 
-	return fmt.Sprintf(authorizeUrl, requestToken, redirectURL), nil
+	return fmt.Sprintf(authorizeUrl, requestToken, c.redirectURL), nil
 }
 
 // GetRequestToken returns the request token (code), which will be used later to authenticate the user in your application.
@@ -145,6 +146,8 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state 
 	if redirectURL == "" {
 		return "", fmt.Errorf("empty redirect URL")
 	}
+
+	c.redirectURL = redirectURL
 
 	body := requestToken{
 		ConsumerKey: c.consumerKey,

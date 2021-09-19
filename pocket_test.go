@@ -475,9 +475,9 @@ func TestClient_GetAuthorizationURL(t *testing.T) {
 
 	for _, tc := range testTable {
 		t.Run(tc.name, func(t *testing.T) {
-			client := &Client{}
+			client := &Client{redirectURL: tc.input.redirectURL}
 
-			got, err := client.GetAuthorizationURL(tc.input.requestToken, tc.input.redirectURL)
+			got, err := client.GetAuthorizationURL(tc.input.requestToken)
 			if tc.wantErr {
 				assert.Error(t, err)
 				assert.Equal(t, tc.expectedErrorMessage, err.Error())

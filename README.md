@@ -42,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	authURL, _ := client.GetAuthorizationURL(requestToken, "https://google.com")
+	authURL, _ := client.GetAuthorizationURL(requestToken)
 	fmt.Println(authURL)
 
 	// Waiting for the user to follow the authorization link and grant rights to the applicationю
