@@ -188,9 +188,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: Add, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: Archive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: Favorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
 					},
 				},
 			},
@@ -205,9 +205,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "",
 					Actions: []Action{
-						{Name: Add, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: Archive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: Favorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
 					},
 				},
 			},
@@ -235,9 +235,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: Add, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: Archive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: Favorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
 					},
 				},
 			},

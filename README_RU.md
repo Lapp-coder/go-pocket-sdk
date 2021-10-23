@@ -67,9 +67,9 @@ func main() {
 	for _, item := range items {
 		// Модифицирование всех найденных элементов пользователя
 		actions := []pocket.Action{
-			{Name: pocket.Favorite, ItemId: item.Id, Time: time.Now().Unix()},
-			{Name: pocket.Archive, ItemId: item.Id, Time: time.Now().Unix()},
-			{Name: pocket.TagsAdd, ItemId: item.Id, Tags: "github.com, github, system-version-control"},
+			{Name: pocket.ActionFavorite, ItemId: item.Id, Time: time.Now().Unix()},
+			{Name: pocket.ActionArchive, ItemId: item.Id, Time: time.Now().Unix()},
+			{Name: pocket.ActionTagsAdd, ItemId: item.Id, Tags: "github.com, github, system-version-control"},
 		}
 
 		_ = client.Modify(ctx, pocket.ModifyInput{

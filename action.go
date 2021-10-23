@@ -1,18 +1,18 @@
 package go_pocket_sdk
 
 const (
-	Add         = "add"
-	Archive     = "archive"
-	ReAdd       = "readd"
-	Favorite    = "favorite"
-	UnFavorite  = "unfavorite"
-	Delete      = "delete"
-	TagsAdd     = "tags_add"
-	TagsRemove  = "tags_remove"
-	TagsReplace = "tags_replace"
-	TagsClear   = "tags_clear"
-	TagRename   = "tag_rename"
-	TagDelete   = "tag_delete"
+	ActionAdd         = "add"
+	ActionArchive     = "archive"
+	ActionReAdd       = "readd"
+	ActionFavorite    = "favorite"
+	ActionUnFavorite  = "unfavorite"
+	ActionDelete      = "delete"
+	ActionTagsAdd     = "tags_add"
+	ActionTagsRemove  = "tags_remove"
+	ActionTagsReplace = "tags_replace"
+	ActionTagsClear   = "tags_clear"
+	ActionTagRename   = "tag_rename"
+	ActionTagDelete   = "tag_delete"
 )
 
 type Action struct {
