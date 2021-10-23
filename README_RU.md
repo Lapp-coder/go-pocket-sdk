@@ -23,9 +23,10 @@ package main
 import (
 	"context"
 	"fmt"
-	pocket "github.com/Lapp-coder/go-pocket-sdk"
 	"log"
 	"time"
+
+	pocket "github.com/Lapp-coder/go-pocket-sdk"
 )
 
 func main() {
@@ -67,9 +68,9 @@ func main() {
 	for _, item := range items {
 		// Модифицирование всех найденных элементов пользователя
 		actions := []pocket.Action{
-			{Name: pocket.ActionFavorite, ItemId: item.Id, Time: time.Now().Unix()},
-			{Name: pocket.ActionArchive, ItemId: item.Id, Time: time.Now().Unix()},
-			{Name: pocket.ActionTagsAdd, ItemId: item.Id, Tags: "github.com, github, system-version-control"},
+			{Name: pocket.ActionFavorite, ItemID: item.ID, Time: time.Now().Unix()},
+			{Name: pocket.ActionArchive, ItemID: item.ID, Time: time.Now().Unix()},
+			{Name: pocket.ActionTagsAdd, ItemID: item.ID, Tags: "github.com, github, system-version-control"},
 		}
 
 		_ = client.Modify(ctx, pocket.ModifyInput{

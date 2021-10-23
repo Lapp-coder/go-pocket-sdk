@@ -188,9 +188,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
 				},
 			},
@@ -205,9 +205,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "",
 					Actions: []Action{
-						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
 				},
 			},
@@ -235,9 +235,9 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: ActionAdd, ItemId: "987", Url: "https://github.com", Title: "Github"},
-						{Name: ActionArchive, ItemId: "654", Time: time.Now().Unix()},
-						{Name: ActionFavorite, ItemId: "321", Time: time.Now().Unix()},
+						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
+						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
 				},
 			},
@@ -291,7 +291,7 @@ func TestClient_Retrieving(t *testing.T) {
 			expectedResponseBody: `{"status":1,"list":{"229279689":{"item_id":"229279689","resolved_id":"229279689","given_url":"http:\/\/www.grantland.com\/blog\/the-triangle\/post\/_\/id\/38347\/ryder-cup-preview","given_title":"The Massive Ryder Cup Preview - The Triangle Blog - Grantland","favorite":"0","status":"0","resolved_title":"The Massive Ryder Cup Preview","resolved_url":"http:\/\/www.grantland.com\/blog\/the-triangle\/post\/_\/id\/38347\/ryder-cup-preview","excerpt":"The list of things I love about the Ryder Cup is so long that it could fill a (tedious) novel, and golf fans can probably guess most of them.","is_article":"1","has_video":"1","has_image":"1","word_count":"3197"}}}`,
 			expectedItems: []Item{
 				{
-					Id:            "229279689",
+					ID:            "229279689",
 					ResolvedId:    "229279689",
 					GivenUrl:      `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
 					GivenTitle:    `The Massive Ryder Cup Preview - The Triangle Blog - Grantland`,

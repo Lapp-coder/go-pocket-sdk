@@ -17,7 +17,7 @@ const (
 
 type Action struct {
 	Name   string `json:"action"`
-	ItemId string `json:"item_id"`
+	ItemID string `json:"item_id"`
 	RefId  string `json:"ref_id,omitempty"`
 	Tags   string `json:"tags,omitempty"`
 	Time   int64  `json:"time,omitempty"`

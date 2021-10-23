@@ -5,10 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/tidwall/gjson"
 )
 
 const (
@@ -87,11 +88,12 @@ func (c *Client) Retrieving(ctx context.Context, input RetrievingInput) ([]Item,
 
 func (c *Client) getItems(result gjson.Result) []Item {
 	var items []Item
-	for itemId := range result.Get("list").Map() {
-		item := newItem(itemId)
-		item.fillFields(result)
+	for itemID := range result.Get("list").Map() {
+		item := newItem(itemID)
+		item.fillAllFields(result)
 		items = append(items, item)
 	}
+
 	return items
 }
 
