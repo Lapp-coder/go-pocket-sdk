@@ -3,7 +3,7 @@ package go_pocket_sdk
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 	"testing"
@@ -27,7 +27,7 @@ func newClient(t *testing.T, statusCode int, path, responseBody string) *Client 
 
 				return &http.Response{
 					StatusCode: statusCode,
-					Body:       ioutil.NopCloser(strings.NewReader(responseBody)),
+					Body:       io.NopCloser(strings.NewReader(responseBody)),
 				}, nil
 			}),
 		},

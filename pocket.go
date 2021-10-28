@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -194,7 +194,7 @@ func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) 
 		return gjson.Result{}, fmt.Errorf("API error %s: %s", resp.Header.Get(xErrorCodeHeader), resp.Header.Get(xErrorHeader))
 	}
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return gjson.Result{}, fmt.Errorf("an error occurred when reading the request body: %s", err.Error())
 	}
