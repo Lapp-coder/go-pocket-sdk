@@ -1,6 +1,6 @@
 # GetPocket API Golang SDK
 
-[![Release](https://img.shields.io/badge/release-v1.0.4-blue)](https://github.com/Lapp-coder/go-pocket-sdk/releases)
+[![Release](https://img.shields.io/badge/release-v1.0.4-blue)](https://github.com/Lapp-coder/go-pocket-sdk/tags)
 
 ### The basis of the package was made on code from [this](https://github.com/zhashkevych/go-pocket-sdk) repository.
 
