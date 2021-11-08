@@ -18,7 +18,7 @@ type (
 		URL         string `json:"url"`
 		Title       string `json:"title,omitempty"`
 		Tags        string `json:"tags,omitempty"`
-		TweetId     string `json:"tweet_id,omitempty"`
+		TweetID     string `json:"tweet_id,omitempty"`
 	}
 
 	requestModify struct {

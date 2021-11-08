@@ -1,7 +1,6 @@
 package go_pocket_sdk
 
 import (
-	"errors"
 	"strings"
 )
 
@@ -11,7 +10,7 @@ type AddInput struct {
 	URL         string
 	Title       string
 	Tags        []string
-	TweetId     string
+	TweetID     string
 }
 
 // ModifyInput contains the data needed to modify items in the Pocket list
@@ -36,59 +35,59 @@ type RetrievingInput struct {
 	Offset      int
 }
 
-func (ai AddInput) generateRequest(consumerKey string) (requestAdd, error) {
-	if ai.AccessToken == "" {
-		return requestAdd{}, errors.New("empty access token")
+func (i AddInput) generateRequest(consumerKey string) (requestAdd, error) {
+	if i.AccessToken == "" {
+		return requestAdd{}, ErrEmptyAccessToken
 	}
 
-	if ai.URL == "" {
-		return requestAdd{}, errors.New("empty URL")
+	if i.URL == "" {
+		return requestAdd{}, ErrEmptyItemURL
 	}
 
 	return requestAdd{
 		ConsumerKey: consumerKey,
-		AccessToken: ai.AccessToken,
-		URL:         ai.URL,
-		Title:       ai.Title,
-		Tags:        strings.Join(ai.Tags, ", "),
-		TweetId:     ai.TweetId,
+		AccessToken: i.AccessToken,
+		URL:         i.URL,
+		Title:       i.Title,
+		Tags:        strings.Join(i.Tags, ", "),
+		TweetID:     i.TweetID,
 	}, nil
 }
 
-func (mi ModifyInput) generateRequest(consumerKey string) (requestModify, error) {
-	if mi.AccessToken == "" {
-		return requestModify{}, errors.New("empty access token")
+func (i ModifyInput) generateRequest(consumerKey string) (requestModify, error) {
+	if i.AccessToken == "" {
+		return requestModify{}, ErrEmptyAccessToken
 	}
 
-	if len(mi.Actions) == 0 {
-		return requestModify{}, errors.New("no actions to modify")
+	if len(i.Actions) == 0 {
+		return requestModify{}, ErrNoActions
 	}
 
 	return requestModify{
 		ConsumerKey: consumerKey,
-		AccessToken: mi.AccessToken,
-		Actions:     mi.Actions,
+		AccessToken: i.AccessToken,
+		Actions:     i.Actions,
 	}, nil
 }
 
-func (ri RetrievingInput) generateRequest(consumerKey string) (requestRetrieving, error) {
-	if ri.AccessToken == "" {
-		return requestRetrieving{}, errors.New("empty access token")
+func (i RetrievingInput) generateRequest(consumerKey string) (requestRetrieving, error) {
+	if i.AccessToken == "" {
+		return requestRetrieving{}, ErrEmptyAccessToken
 	}
 
 	return requestRetrieving{
 		ConsumerKey: consumerKey,
-		AccessToken: ri.AccessToken,
-		State:       ri.State,
-		Favorite:    ri.Favorite,
-		Tag:         ri.Tag,
-		ContentType: ri.ContentType,
-		Sort:        ri.Sort,
-		DetailType:  ri.DetailType,
-		Search:      ri.Search,
-		Domain:      ri.Domain,
-		Since:       ri.Since,
-		Count:       ri.Count,
-		Offset:      ri.Offset,
+		AccessToken: i.AccessToken,
+		State:       i.State,
+		Favorite:    i.Favorite,
+		Tag:         i.Tag,
+		ContentType: i.ContentType,
+		Sort:        i.Sort,
+		DetailType:  i.DetailType,
+		Search:      i.Search,
+		Domain:      i.Domain,
+		Since:       i.Since,
+		Count:       i.Count,
+		Offset:      i.Offset,
 	}, nil
 }

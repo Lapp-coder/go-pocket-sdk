@@ -14,7 +14,7 @@ type Authorization struct {
 
 type Item struct {
 	ID            string
-	ResolvedId    string
+	ResolvedID    string
 	GivenUrl      string
 	ResolvedUrl   string
 	GivenTitle    string
@@ -28,12 +28,8 @@ type Item struct {
 	WordCount     string
 }
 
-func newItem(itemId string) Item {
-	return Item{ID: itemId}
-}
-
 func (i *Item) fillAllFields(result gjson.Result) {
-	i.ResolvedId = result.Get(fmt.Sprintf("list.%s.resolved_id", i.ID)).String()
+	i.ResolvedID = result.Get(fmt.Sprintf("list.%s.resolved_id", i.ID)).String()
 	i.GivenUrl = result.Get(fmt.Sprintf("list.%s.given_url", i.ID)).String()
 	i.ResolvedUrl = result.Get(fmt.Sprintf("list.%s.resolved_url", i.ID)).String()
 	i.GivenTitle = result.Get(fmt.Sprintf("list.%s.given_title", i.ID)).String()

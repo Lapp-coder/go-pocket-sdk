@@ -38,7 +38,7 @@ type Client struct {
 // NewClient creates a new client with your application key (to generate a key, create your application here: https://getpocket.com/developer/apps)
 func NewClient(consumerKey string) (*Client, error) {
 	if consumerKey == "" {
-		return nil, fmt.Errorf("empty consumer key")
+		return nil, ErrEmptyConsumerKey
 	}
 
 	return &Client{
@@ -83,13 +83,13 @@ func (c *Client) Retrieving(ctx context.Context, input RetrievingInput) ([]Item,
 		return nil, err
 	}
 
-	return c.getItems(result), nil
+	return c.parseItems(result), nil
 }
 
-func (c *Client) getItems(result gjson.Result) []Item {
+func (c *Client) parseItems(result gjson.Result) []Item {
 	var items []Item
 	for itemID := range result.Get("list").Map() {
-		item := newItem(itemID)
+		item := Item{ID: itemID}
 		item.fillAllFields(result)
 		items = append(items, item)
 	}
@@ -100,7 +100,7 @@ func (c *Client) getItems(result gjson.Result) []Item {
 // Authorize returns the Authorization structure with the access token, username and state obtained from the authorization request
 func (c *Client) Authorize(ctx context.Context, requestToken string) (Authorization, error) {
 	if requestToken == "" {
-		return Authorization{}, fmt.Errorf("empty request token")
+		return Authorization{}, ErrEmptyRequestToken
 	}
 
 	body := requestAuthorization{
@@ -118,7 +118,7 @@ func (c *Client) Authorize(ctx context.Context, requestToken string) (Authorizat
 	state := result.Get("state").String()
 
 	if accessToken == "" {
-		return Authorization{}, fmt.Errorf("empty access token in API response")
+		return Authorization{}, ErrEmptyAccessToken
 	}
 
 	return Authorization{
@@ -131,11 +131,11 @@ func (c *Client) Authorize(ctx context.Context, requestToken string) (Authorizat
 // GetAuthorizationURL returns the url string that is used to grant the user access rights to his Pocket account in your application
 func (c Client) GetAuthorizationURL(requestToken string) (string, error) {
 	if requestToken == "" {
-		return "", fmt.Errorf("empty request token")
+		return "", ErrEmptyRequestToken
 	}
 
 	if c.redirectURL == "" {
-		return "", fmt.Errorf("empty redirection URL")
+		return "", ErrEmptyRedirectURL
 	}
 
 	return fmt.Sprintf(authorizeUrl, requestToken, c.redirectURL), nil
@@ -146,7 +146,7 @@ func (c Client) GetAuthorizationURL(requestToken string) (string, error) {
 // State - metadata string that will be returned at each subsequent authentication response (if you don't need it, specify an empty string).
 func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state string) (string, error) {
 	if redirectURL == "" {
-		return "", fmt.Errorf("empty redirect URL")
+		return "", ErrEmptyRedirectURL
 	}
 
 	c.redirectURL = redirectURL
@@ -164,7 +164,7 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state 
 
 	token := result.Get("code").String()
 	if token == "" {
-		return "", fmt.Errorf("empty request token in API response")
+		return "", ErrEmptyRequestTokenInResponse
 	}
 
 	return token, nil
@@ -173,12 +173,12 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectURL string, state 
 func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) (gjson.Result, error) {
 	b, err := json.Marshal(body)
 	if err != nil {
-		return gjson.Result{}, fmt.Errorf("an error occurred when marshal the input body: %s", err.Error())
+		return gjson.Result{}, fmt.Errorf("error occurred when marshal the input body: %s", err.Error())
 	}
 
 	req, err := http.NewRequestWithContext(ctx, "POST", host+endpoint, bytes.NewBufferString(string(b)))
 	if err != nil {
-		return gjson.Result{}, fmt.Errorf("an error occurred when creating the query: %s", err.Error())
+		return gjson.Result{}, fmt.Errorf("error occurred when creating the query: %s", err.Error())
 	}
 
 	req.Header.Set("Content-Type", "application/json; charset=UTF-8")
@@ -186,7 +186,7 @@ func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) 
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return gjson.Result{}, fmt.Errorf("an error occurred when sending a request to the Pocket server: %s", err.Error())
+		return gjson.Result{}, fmt.Errorf("error occurred when sending a request to the Pocket server: %s", err.Error())
 	}
 	defer resp.Body.Close()
 
@@ -196,12 +196,12 @@ func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) 
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return gjson.Result{}, fmt.Errorf("an error occurred when reading the request body: %s", err.Error())
+		return gjson.Result{}, fmt.Errorf("error occurred when reading the request body: %s", err.Error())
 	}
 
 	result := gjson.Parse(string(respBody))
 	if result.String() == "" {
-		return gjson.Result{}, fmt.Errorf("failed to parse response body")
+		return gjson.Result{}, ErrFailedToParseInputBody
 	}
 
 	return result, nil

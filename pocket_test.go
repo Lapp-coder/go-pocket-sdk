@@ -14,8 +14,8 @@ import (
 
 type roundTripFunc func(r *http.Request) (*http.Response, error)
 
-func (s roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) {
-	return s(r)
+func (rt roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) {
+	return rt(r)
 }
 
 func newClient(t *testing.T, statusCode int, path, responseBody string) *Client {
@@ -40,7 +40,7 @@ func TestClient_Add(t *testing.T) {
 		addInput AddInput
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                 string
 		input                args
 		expectedStatusCode   int
@@ -57,7 +57,7 @@ func TestClient_Add(t *testing.T) {
 					URL:         "https://github.com",
 					Title:       "title",
 					Tags:        []string{"github"},
-					TweetId:     "1",
+					TweetID:     "1",
 				},
 			},
 			expectedStatusCode:   200,
@@ -65,7 +65,7 @@ func TestClient_Add(t *testing.T) {
 			wantErr:              false,
 		},
 		{
-			name: "OK_WithoutTweetId",
+			name: "OK_WithoutTweetID",
 			input: args{
 				ctx: context.Background(),
 				addInput: AddInput{
@@ -80,7 +80,7 @@ func TestClient_Add(t *testing.T) {
 			wantErr:              false,
 		},
 		{
-			name: "OK_WithoutTagsAndTweetId",
+			name: "OK_WithoutTagsAndTweetID",
 			input: args{
 				ctx: context.Background(),
 				addInput: AddInput{
@@ -94,7 +94,7 @@ func TestClient_Add(t *testing.T) {
 			wantErr:              false,
 		},
 		{
-			name: "OK_WithoutTitleAndTagsAndTweetId",
+			name: "OK_WithoutTitleAndTagsAndTweetID",
 			input: args{
 				ctx: context.Background(),
 				addInput: AddInput{
@@ -116,7 +116,7 @@ func TestClient_Add(t *testing.T) {
 				},
 			},
 			expectedResponseBody: `{"status":0}`,
-			expectedErrorMessage: "empty access token",
+			expectedErrorMessage: ErrEmptyAccessToken.Error(),
 			wantErr:              true,
 		},
 		{
@@ -130,7 +130,7 @@ func TestClient_Add(t *testing.T) {
 			},
 			expectedStatusCode:   400,
 			expectedResponseBody: `{"status":0}`,
-			expectedErrorMessage: "empty URL",
+			expectedErrorMessage: ErrEmptyItemURL.Error(),
 			wantErr:              true,
 		},
 		{
@@ -142,7 +142,7 @@ func TestClient_Add(t *testing.T) {
 					URL:         "https://github.com",
 					Title:       "title",
 					Tags:        []string{"github"},
-					TweetId:     "1",
+					TweetID:     "1",
 				},
 			},
 			expectedStatusCode:   400,
@@ -152,7 +152,7 @@ func TestClient_Add(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := newClient(t, tc.expectedStatusCode, "/v3/add", tc.expectedResponseBody)
 
@@ -173,7 +173,7 @@ func TestClient_Modify(t *testing.T) {
 		modifyInput ModifyInput
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                 string
 		input                args
 		expectedStatusCode   int
@@ -212,7 +212,7 @@ func TestClient_Modify(t *testing.T) {
 				},
 			},
 			expectedResponseBody: `{"status":0}`,
-			expectedErrorMessage: "empty access token",
+			expectedErrorMessage: ErrEmptyAccessToken.Error(),
 			wantErr:              true,
 		},
 		{
@@ -225,7 +225,7 @@ func TestClient_Modify(t *testing.T) {
 				},
 			},
 			expectedResponseBody: `{"status":0}`,
-			expectedErrorMessage: "no actions to modify",
+			expectedErrorMessage: ErrNoActions.Error(),
 			wantErr:              true,
 		},
 		{
@@ -248,7 +248,7 @@ func TestClient_Modify(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := newClient(t, tc.expectedStatusCode, "/v3/send", tc.expectedResponseBody)
 
@@ -269,7 +269,7 @@ func TestClient_Retrieving(t *testing.T) {
 		retrievingInput RetrievingInput
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                 string
 		input                args
 		expectedStatusCode   int
@@ -292,7 +292,7 @@ func TestClient_Retrieving(t *testing.T) {
 			expectedItems: []Item{
 				{
 					ID:            "229279689",
-					ResolvedId:    "229279689",
+					ResolvedID:    "229279689",
 					GivenUrl:      `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
 					GivenTitle:    `The Massive Ryder Cup Preview - The Triangle Blog - Grantland`,
 					ResolvedUrl:   `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
@@ -317,7 +317,7 @@ func TestClient_Retrieving(t *testing.T) {
 					Favorite:    "0",
 				},
 			},
-			expectedErrorMessage: "empty access token",
+			expectedErrorMessage: ErrEmptyAccessToken.Error(),
 			wantErr:              true,
 		},
 		{
@@ -335,7 +335,7 @@ func TestClient_Retrieving(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := newClient(t, tc.expectedStatusCode, "/v3/get", tc.expectedResponseBody)
 
@@ -357,7 +357,7 @@ func TestClient_Authorize(t *testing.T) {
 		requestToken string
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                  string
 		input                 args
 		expectedStatusCode    int
@@ -394,7 +394,7 @@ func TestClient_Authorize(t *testing.T) {
 				ctx:          context.Background(),
 				requestToken: "",
 			},
-			expectedErrorMessage: "empty request token",
+			expectedErrorMessage: ErrEmptyRequestToken.Error(),
 			wantErr:              true,
 		},
 		{
@@ -409,7 +409,7 @@ func TestClient_Authorize(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := newClient(t, tc.expectedStatusCode, "/v3/oauth/authorize", tc.expectedResponseBody)
 
@@ -436,7 +436,7 @@ func TestClient_GetAuthorizationURL(t *testing.T) {
 		return fmt.Sprintf("https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s", input.requestToken, input.redirectURL)
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                 string
 		input                args
 		expectedErrorMessage string
@@ -458,7 +458,7 @@ func TestClient_GetAuthorizationURL(t *testing.T) {
 				requestToken: "",
 				redirectURL:  "http://localhost",
 			},
-			expectedErrorMessage: "empty request token",
+			expectedErrorMessage: ErrEmptyRequestToken.Error(),
 			wantErr:              true,
 		},
 		{
@@ -468,12 +468,12 @@ func TestClient_GetAuthorizationURL(t *testing.T) {
 				requestToken: "request-token",
 				redirectURL:  "",
 			},
-			expectedErrorMessage: "empty redirection URL",
+			expectedErrorMessage: ErrEmptyRedirectURL.Error(),
 			wantErr:              true,
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := &Client{redirectURL: tc.input.redirectURL}
 
@@ -496,7 +496,7 @@ func TestClient_GetRequestToken(t *testing.T) {
 		redirectURL string
 	}
 
-	testTable := []struct {
+	testCases := []struct {
 		name                 string
 		input                args
 		expectedStatusCode   int
@@ -535,7 +535,7 @@ func TestClient_GetRequestToken(t *testing.T) {
 				ctx:         context.Background(),
 				redirectURL: "",
 			},
-			expectedErrorMessage: "empty redirect URL",
+			expectedErrorMessage: ErrEmptyRedirectURL.Error(),
 			wantErr:              true,
 		},
 		{
@@ -546,7 +546,7 @@ func TestClient_GetRequestToken(t *testing.T) {
 			},
 			expectedStatusCode:   200,
 			expectedResponseBody: `{"code":""}`,
-			expectedErrorMessage: "empty request token in API response",
+			expectedErrorMessage: ErrEmptyRequestTokenInResponse.Error(),
 			wantErr:              true,
 		},
 		{
@@ -561,7 +561,7 @@ func TestClient_GetRequestToken(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testTable {
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := newClient(t, tc.expectedStatusCode, "/v3/oauth/request", tc.expectedResponseBody)
 
