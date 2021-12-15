@@ -188,7 +188,7 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionAdd, ItemID: "987", URL: "https://github.com", Title: "Github"},
 						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
 						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
@@ -205,7 +205,7 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "",
 					Actions: []Action{
-						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionAdd, ItemID: "987", URL: "https://github.com", Title: "Github"},
 						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
 						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
@@ -235,7 +235,7 @@ func TestClient_Modify(t *testing.T) {
 				modifyInput: ModifyInput{
 					AccessToken: "access-token",
 					Actions: []Action{
-						{Name: ActionAdd, ItemID: "987", Url: "https://github.com", Title: "Github"},
+						{Name: ActionAdd, ItemID: "987", URL: "https://github.com", Title: "Github"},
 						{Name: ActionArchive, ItemID: "654", Time: time.Now().Unix()},
 						{Name: ActionFavorite, ItemID: "321", Time: time.Now().Unix()},
 					},
@@ -293,9 +293,9 @@ func TestClient_Retrieving(t *testing.T) {
 				{
 					ID:            "229279689",
 					ResolvedID:    "229279689",
-					GivenUrl:      `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
+					GivenURL:      `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
 					GivenTitle:    `The Massive Ryder Cup Preview - The Triangle Blog - Grantland`,
-					ResolvedUrl:   `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
+					ResolvedURL:   `http://www.grantland.com/blog/the-triangle/post/_/id/38347/ryder-cup-preview`,
 					ResolvedTitle: `The Massive Ryder Cup Preview`,
 					Favorite:      "0",
 					Status:        "0",

@@ -15,8 +15,8 @@ type Authorization struct {
 type Item struct {
 	ID            string
 	ResolvedID    string
-	GivenUrl      string
-	ResolvedUrl   string
+	GivenURL      string
+	ResolvedURL   string
 	GivenTitle    string
 	ResolvedTitle string
 	Favorite      string
@@ -30,8 +30,8 @@ type Item struct {
 
 func (i *Item) fillAllFields(result gjson.Result) {
 	i.ResolvedID = result.Get(fmt.Sprintf("list.%s.resolved_id", i.ID)).String()
-	i.GivenUrl = result.Get(fmt.Sprintf("list.%s.given_url", i.ID)).String()
-	i.ResolvedUrl = result.Get(fmt.Sprintf("list.%s.resolved_url", i.ID)).String()
+	i.GivenURL = result.Get(fmt.Sprintf("list.%s.given_url", i.ID)).String()
+	i.ResolvedURL = result.Get(fmt.Sprintf("list.%s.resolved_url", i.ID)).String()
 	i.GivenTitle = result.Get(fmt.Sprintf("list.%s.given_title", i.ID)).String()
 	i.ResolvedTitle = result.Get(fmt.Sprintf("list.%s.resolved_title", i.ID)).String()
 	i.Favorite = result.Get(fmt.Sprintf("list.%s.favorite", i.ID)).String()

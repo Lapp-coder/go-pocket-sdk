@@ -14,7 +14,7 @@ import (
 
 const (
 	host         = "https://getpocket.com/v3"
-	authorizeUrl = "https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s"
+	authorizeURL = "https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s"
 
 	endpointAdd              = "/add"
 	endpointModify           = "/send"
@@ -138,7 +138,7 @@ func (c Client) GetAuthorizationURL(requestToken string) (string, error) {
 		return "", ErrEmptyRedirectURL
 	}
 
-	return fmt.Sprintf(authorizeUrl, requestToken, c.redirectURL), nil
+	return fmt.Sprintf(authorizeURL, requestToken, c.redirectURL), nil
 }
 
 // GetRequestToken returns the request token (code), which will be used later to authenticate the user in your application.
