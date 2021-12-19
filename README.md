@@ -46,7 +46,7 @@ func main() {
 	authURL, _ := client.GetAuthorizationURL(requestToken)
 	fmt.Println(authURL)
 
-	// Waiting for the user to follow the authorization link and grant rights to the applicationю
+	// Waiting for the user to follow the authorization link and grant rights to the application
 	fmt.Scanln()
 
 	auth, err := client.Authorize(ctx, requestToken)
